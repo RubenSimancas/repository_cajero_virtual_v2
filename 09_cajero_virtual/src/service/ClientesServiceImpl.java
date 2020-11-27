@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import model.Cliente;
+import model.Cuenta;
 @Service
 public class ClientesServiceImpl implements ClientesService {
 	@PersistenceContext(unitName = "bancaPU")
@@ -24,6 +25,13 @@ public class ClientesServiceImpl implements ClientesService {
 	public void actualizarCliente(Cliente cliente) {
 		em.merge(cliente);
 
+	}
+	@Override
+	public void ingresar(int numeroCuenta, double cantidad) {
+		Cuenta cuenta=em.find(Cuenta.class, numeroCuenta);
+		cuenta.setSaldo(cuenta.getSaldo()+cantidad);
+		em.merge(cuenta);
+		
 	}
 
 }
